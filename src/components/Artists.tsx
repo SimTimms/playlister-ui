@@ -102,32 +102,6 @@ const Artists: React.FC = () => {
     return isRock;
   };
 
-  const poopCount = () => {
-    let poopCount = 0;
-    let rockCount = 0;
-    let venueCount = 0;
-    for (let i = 0; i < response.length; i++) {
-      const item = response[i];
-      if (isShit(item.artist.genres, item.artist.description)) {
-        poopCount++;
-      } else {
-        if (
-          isRock(
-            item.artist.genres,
-            item.artist.popularity,
-            item.artist.description
-          )
-        ) {
-          rockCount++;
-        }
-      }
-      if (isGoodVenue(item.artist.events.venue)) {
-        venueCount++;
-      }
-    }
-    return [poopCount, rockCount, venueCount];
-  };
-
   const generateComponent = (response: any[]) => {
     const componentArray = [];
     let filterArray = response;
