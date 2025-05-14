@@ -34,7 +34,8 @@ const convertTime12to24 = (time12h: any): { time: string; date: string } => {
   const actualDate = hours < 5 ? '2025-05-16' : '2025-05-15';
   return { time: `${hours}:${minutes}`, date: actualDate };
 };
-
+{
+  /*
 const isShit = (genre: string[], description: string): boolean => {
   if (!genre) {
     return false;
@@ -86,19 +87,19 @@ const isRock = (genre: string[], description: string): boolean => {
 
   return isRock;
 };
+*/
+}
 
 interface BandNameProps {
   band: any;
   bandCount: any;
   clash: boolean;
-  lastChance: boolean;
 }
 
 const BandName: React.FC<BandNameProps> = ({
   band,
   bandCount,
   clash,
-  lastChance,
 }: BandNameProps) => {
   const newName = band.artist.name.trim().toLowerCase().replace(' ', '-');
   return (
@@ -227,9 +228,8 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
     band: any;
     day: string;
     clash?: boolean;
-    lastChance: boolean;
   }) => {
-    const { index, band, day, clash, lastChance } = props;
+    const { index, band, day, clash } = props;
     return (
       <div
         style={{
@@ -240,12 +240,7 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
           padding: 4,
         }}
       >
-        <BandName
-          band={band}
-          bandCount={bandCount}
-          clash={clash || false}
-          lastChance={lastChance}
-        />
+        <BandName band={band} bandCount={bandCount} clash={clash || false} />
         <sub style={{ textAlign: 'right', color: 'rgba(255,255,255,0.7)' }}>{`${
           band.artist.events.venue
         } - ${band.artist.events.time.replace(day, '')}`}</sub>
@@ -285,7 +280,6 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
               index={index}
               day="Wednesday"
               clash={hasClash}
-              lastChance={showNumber[newName] === bandCount[newName]}
             />
           );
         });
@@ -318,7 +312,6 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
               index={index}
               day="Thursday"
               clash={hasClash}
-              lastChance={showNumber[newName] === bandCount[newName]}
             />
           );
         });
@@ -379,7 +372,6 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
               index={index}
               day="Friday"
               clash={hasClash}
-              lastChance={isLastChance}
             />
           );
         });
@@ -412,7 +404,6 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
               index={index}
               day="Saturday"
               clash={hasClash}
-              lastChance={showNumber[newName] === bandCount[newName]}
             />
           );
         });

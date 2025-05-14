@@ -29,11 +29,7 @@ const Artists: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  const isShit = (
-    genre: string[],
-    popularity: number,
-    description: string
-  ): boolean => {
+  const isShit = (genre: string[], description: string): boolean => {
     if (!genre) {
       return false;
     }
@@ -105,13 +101,7 @@ const Artists: React.FC = () => {
     let venueCount = 0;
     for (let i = 0; i < response.length; i++) {
       const item = response[i];
-      if (
-        isShit(
-          item.artist.genres,
-          item.artist.popularity,
-          item.artist.description
-        )
-      ) {
+      if (isShit(item.artist.genres, item.artist.description)) {
         poopCount++;
       } else {
         if (
@@ -136,11 +126,7 @@ const Artists: React.FC = () => {
     for (let i = 0; i < response.length; i++) {
       const item = response[i];
 
-      const isThisShit = isShit(
-        item.artist.genres,
-        item.artist.popularity,
-        item.artist.description
-      );
+      const isThisShit = isShit(item.artist.genres, item.artist.description);
 
       let isThisRock = false;
 
