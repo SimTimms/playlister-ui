@@ -44,64 +44,6 @@ const Artists: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  const isShit = (genre: string[], description: string): boolean => {
-    if (!genre) {
-      return false;
-    }
-    const isShit: boolean =
-      genre.join(',').indexOf('jazz') > -1 ||
-      genre.join(',').indexOf('shoegaze') > -1 ||
-      genre.join(',').indexOf('grime') > -1 ||
-      genre.join(',').indexOf('spoken') > -1 ||
-      genre.join(',').indexOf('bedroom') > -1 ||
-      genre.join(',').indexOf('house') > -1 ||
-      genre.join(',').indexOf('gospel') > -1 ||
-      description.indexOf('dream pop') > -1 ||
-      description.indexOf('dreamy') > -1 ||
-      description.indexOf('TikTok') > -1 ||
-      description.indexOf('Spotlight') > -1 ||
-      description.indexOf('Radio 1') > -1 ||
-      description.indexOf('avant-garde') > -1 ||
-      description.indexOf('emotional reflection') > -1 ||
-      description.indexOf('shoegaze') > -1;
-
-    return isShit;
-  };
-
-  const isGoodVenue = (venue: string): boolean => {
-    if (!venue) {
-      return false;
-    }
-    const isShit: boolean =
-      venue.indexOf('Prince Albert') > -1 ||
-      venue.indexOf('Horatios') > -1 ||
-      venue.indexOf('Green Door Store') > -1 ||
-      venue.indexOf('Volks') > -1;
-    return isShit;
-  };
-
-  const isRock = (
-    genre: string[],
-    popularity: number,
-    description: string
-  ): boolean => {
-    if (!genre) {
-      return false;
-    }
-    const isRock: boolean =
-      genre.join(',').indexOf('punk') > -1 ||
-      genre.join(',').indexOf('celtic') > -1 ||
-      genre.join(',').indexOf('metal') > -1 ||
-      genre.join(',').indexOf('rock') > -1 ||
-      popularity > 50 ||
-      description.indexOf('punk') > -1 ||
-      description.indexOf('metal') > -1 ||
-      description.indexOf('Radiohead') > -1 ||
-      description.indexOf('rock') > -1;
-
-    return isRock;
-  };
-
   const generateComponent = (response: any[]) => {
     const componentArray = [];
     let filterArray = response;
