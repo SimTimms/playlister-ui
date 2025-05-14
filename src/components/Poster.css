@@ -1,5 +1,5 @@
 .poster-page-wrapper{
-  min-height:100vh;
+  height:100vh;
   width:100vw;
   background-color:gray;
   z-index:10;
@@ -9,7 +9,8 @@
   position: fixed;
   left:0;
   top:0;
-  overflow: hidden;
+  overflow: auto;
+  padding-bottom:20px
 }
 
 .poster-page {
@@ -18,8 +19,32 @@
   z-index: 10;
   display: flex;
   justify-content: space-around ;
-    color: #fff !important;
-    padding-top:1vw;
+  align-items: flex-start;
+  color: #fff !important;
+   padding-top:60px;
+  @media (max-width: 800px) {
+     flex-direction:column;
+    align-items: center;
+    }
+}
+
+.col-s{
+width: 22%;
+@media (max-width: 800px) {
+  width:90%
+  }
+}
+
+.band-name{
+  font-size: 1vw;
+  @media (max-width: 800px) {
+      font-size: 3vw;
+    }
+}
+
+button{margin:2px; width:10%; padding:6px; overflow: hidden;}
+.icons{
+    font-size: 1.3vw,
 }
 
 .tge-logo{
@@ -29,7 +54,11 @@
 
 .poster-page h1{
   font-size:2vw;
-  margin:0
+  margin:0;
+    @media (max-width: 800px) {
+        font-size: 4vw;
+        margin-top:30px
+      }
 }
 
 .poster-page h2 {
@@ -39,5 +68,8 @@
 
 .poster-page sub {
   font-size: 1vw;
-  margin: 0
+  margin: 0;
+  @media (max-width: 800px) {
+      font-size: 2vw;
+    }
 }

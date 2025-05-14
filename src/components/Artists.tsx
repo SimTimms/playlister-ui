@@ -1,29 +1,44 @@
 import React, { useEffect } from 'react';
-import { PoopIcon } from './PoopIcon';
-import { RockIcon } from './RockIcon';
-import { VenueIcon } from './VenueIcon';
 import parse from 'html-react-parser';
 import Poster from './Poster';
 const Artists: React.FC = () => {
+  const [playlistId, setPlaylistId] = React.useState<string>(
+    '3o60YYFMgopRPOXOYxpkTz'
+  );
   const [response, setResponse] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [currentArtist, setCurrentArtist] = React.useState<any>(null);
+  const [showPanels, setShowPanels] = React.useState<boolean>(true);
+
+  const changePlaylist = (newPlaylist: string) => {
+    setCurrentArtist(null);
+    setPlaylistId(newPlaylist);
+  };
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
-        const res = await fetch(import.meta.env.VITE_API_URL, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/${playlistId}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
         const data = await res.json();
         setResponse(data.data);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
+
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [playlistId]);
 
   if (!response) {
     return <div>Loading...</div>;
@@ -50,14 +65,6 @@ const Artists: React.FC = () => {
       description.indexOf('emotional reflection') > -1 ||
       description.indexOf('shoegaze') > -1;
 
-    return isShit;
-  };
-
-  const isShitVenue = (venue: string): boolean => {
-    if (!venue) {
-      return false;
-    }
-    const isShit: boolean = venue.indexOf('Prasdince Albert') > -1;
     return isShit;
   };
 
@@ -123,182 +130,74 @@ const Artists: React.FC = () => {
 
   const generateComponent = (response: any[]) => {
     const componentArray = [];
-    for (let i = 0; i < response.length; i++) {
-      const item = response[i];
+    let filterArray = response;
+    if (currentArtist) {
+      filterArray = response.filter(
+        (item) => item.artist.name === currentArtist.artist.name
+      );
+    }
+    for (let i = 0; i < [filterArray[0]].length; i++) {
+      const item = filterArray[i];
 
-      const isThisShit = isShit(item.artist.genres, item.artist.description);
-
-      let isThisRock = false;
-
-      if (!isThisShit) {
-        isThisRock = isRock(
-          item.artist.genres,
-          item.artist.popularity,
-          item.artist.description
-        );
-      }
       componentArray.push(
         <div
           style={{
             backgroundImage: `url(${item.artist.image.url})`,
             backgroundSize: 'cover',
-            width: 300,
-            minHeight: 300,
-            margin: 10,
-            borderRadius: 10,
+            width: '100vw',
+            height: '100vh',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             color: 'white',
-            fontSize: 20,
-            position: 'relative',
-            overflow: 'hidden',
-            filter: isThisShit ? '' : isThisRock ? '' : 'grayscale(0%)',
-            opacity: isThisShit ? '' : isThisRock ? '' : '0.5',
-            boxShadow: isThisShit
-              ? 'inset 10px 10px 10px rgba(0,0,0,0.5)'
-              : isThisRock
-              ? '10px 10px 10px rgba(0,0,0,0.5)'
-              : '',
-            border: isThisShit
-              ? '3px solid rgba(112, 66, 45, 1)'
-              : isThisRock
-              ? '3px solid rgba(255,255,255, 0.5)'
-              : '3px solid rgba(0, 0, 0, 0.5)',
           }}
         >
           <div
             style={{
-              fontSize: 14,
-              fontWeight: 'bold',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              zIndex: 1,
-              backdropFilter: 'blur(10px)',
-              backgroundColor: isThisShit
-                ? 'rgba(112, 66, 45, 0.5)'
-                : isThisRock
-                ? 'rgba(255, 133, 241, 0.5)'
-                : 'rgba(0, 0, 0, 0.5)',
-            }}
-          >
-            {item.artist.name}
-          </div>
-          {isThisRock && (
-            <div
-              style={{
-                fontWeight: 'bold',
-                position: 'absolute',
-                bottom: 4,
-                right: 4,
-                zIndex: 1,
-              }}
-            >
-              <RockIcon />
-            </div>
-          )}
-          {isThisShit && (
-            <div
-              style={{
-                fontWeight: 'bold',
-                position: 'absolute',
-                bottom: 4,
-                right: 4,
-                zIndex: 1,
-              }}
-            >
-              <PoopIcon />
-            </div>
-          )}
-          {isShitVenue(item.artist.events.venue) && (
-            <div
-              style={{
-                fontWeight: 'bold',
-                position: 'absolute',
-                bottom: 4,
-                left: 4,
-                zIndex: 1,
-              }}
-            >
-              <PoopIcon />
-            </div>
-          )}
-          {isGoodVenue(item.artist.events.venue) && (
-            <div
-              style={{
-                fontWeight: 'bold',
-                position: 'absolute',
-                bottom: 4,
-                left: 4,
-                zIndex: 1,
-              }}
-            >
-              <VenueIcon />
-            </div>
-          )}
-
-          <div
-            style={{
               backdropFilter: 'blur(5px)',
               overflow: 'auto',
-              backgroundColor: isThisShit
-                ? 'rgba(112, 66, 45, 0.5)'
-                : isRock(
-                    item.artist.genres,
-                    item.artist.popularity,
-                    item.artist.description
-                  )
-                ? 'rgba(255, 133, 241, 0.5)'
-                : 'rgba(0, 0, 0, 0.5)',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              padding: 10,
+              paddingBottom: 20,
               width: '100%',
               position: 'absolute',
               bottom: 0,
               left: 0,
             }}
           >
+            <h2>{item.artist.name}</h2>
             {item.tracks.slice(0, 5).map((track: any) => {
               const trackSplit = track.split('|');
               return (
                 <a
                   style={{
                     fontSize: 12,
-                    margin: 0,
-                    padding: 1,
                     color: 'white',
                     lineHeight: 1,
                     cursor: 'pointer',
                     fontWeight: 'normal',
+                    background: 'black',
+                    padding: 10,
+                    margin: 3,
+                    borderRadius: 10,
+                    width: '80%',
                   }}
                   href={trackSplit[1]}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {trackSplit[0]}
+                  {`🔈 ${trackSplit[0]}`}
                 </a>
               );
             })}
-            <div style={{ fontSize: 10, marginTop: 10 }}>
-              {item.artist.genres.join(' | ')}
-              <br />
-              {`${item.artist.events.venue.replace('&#8211;', '@')} - ${
-                item.artist.events.time
-              }`}
-              <br />
-              {item.artist.popularity}
-            </div>
+
             <div
               style={{
-                fontSize: 10,
                 marginTop: 10,
                 overflow: 'auto',
-                height: 60,
               }}
             >
               {parse(item.artist.description)}
@@ -310,33 +209,32 @@ const Artists: React.FC = () => {
     return componentArray;
   };
 
-  const generatePoops = (poopCount: number) => {
-    const poopArr = [];
-    for (let i = 0; i < poopCount; i++) {
-      poopArr.push(<PoopIcon />);
-    }
-
-    return poopArr;
+  const changeArtist = (artist: any) => {
+    setCurrentArtist(artist);
+    setShowPanels(false);
   };
 
-  const generateRocks = (poopCount: number) => {
-    const poopArr = [];
-    for (let i = 0; i < poopCount; i++) {
-      poopArr.push(<RockIcon />);
-    }
-
-    return poopArr;
-  };
-
-  const generateVenues = (venueCount: number) => {
-    const poopArr = [];
-    for (let i = 0; i < venueCount; i++) {
-      poopArr.push(<VenueIcon />);
-    }
-
-    return poopArr;
-  };
-
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          width: '100vw',
+          height: '100vh',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center',
+          left: 0,
+          top: 0,
+          position: 'fixed',
+          overflow: 'auto',
+          background: 'gray',
+        }}
+      >
+        LOADING!!!!
+      </div>
+    );
+  }
   return (
     <div
       style={{
@@ -349,51 +247,81 @@ const Artists: React.FC = () => {
         left: 0,
         top: 0,
         position: 'fixed',
+        background: 'gray',
         overflow: 'auto',
       }}
     >
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
           position: 'fixed',
           top: 0,
-          padding: 10,
-          backdropFilter: 'blur(10px)',
+          left: 0,
+          zIndex: 100,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           width: '100vw',
-          zIndex: 2,
+          flexWrap: 'wrap',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative',
-            padding: 10,
-            width: '100%',
-            flexWrap: 'wrap',
-          }}
-        >
-          {generatePoops(poopCount()[0])}
-          {generateRocks(poopCount()[1])}
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative',
-            padding: 10,
-            width: '100%',
-            flexWrap: 'wrap',
-          }}
-        >
-          {generateVenues(poopCount()[2])}
-        </div>
+        {showPanels && (
+          <>
+            <button
+              onClick={() => {
+                changePlaylist('3o60YYFMgopRPOXOYxpkTz');
+              }}
+            >
+              Tim
+            </button>
+            <button
+              onClick={() => {
+                changePlaylist('3g2AIxdNdLLcWHVOuVxBXg');
+              }}
+            >
+              Yak
+            </button>
+            <button
+              onClick={() => {
+                changePlaylist('4z56A77P0onHJOgItRGR2W');
+              }}
+            >
+              Luk
+            </button>
+            <button
+              onClick={() => {
+                changePlaylist('3V1tvYLZ8TodrWzJukaZzL');
+              }}
+            >
+              Phi
+            </button>
+            <button
+              onClick={() => {
+                changePlaylist('3gS4Gq1iv442Dp8NPkS888');
+              }}
+            >
+              John
+            </button>
+            <button
+              onClick={() => {
+                changePlaylist('7gobrIxFHBcPKlZfRYRBN1');
+              }}
+            >
+              Bean
+            </button>
+          </>
+        )}
+        {!showPanels && (
+          <button
+            onClick={() => {
+              setShowPanels((showPanels) => !showPanels);
+            }}
+            style={{ fontSize: 10 }}
+          >
+            ❌
+          </button>
+        )}
       </div>
+
       <div
         style={{
           display: 'flex',
@@ -407,12 +335,11 @@ const Artists: React.FC = () => {
           overflow: 'auto',
           position: 'fixed',
           zIndex: 0,
-          paddingTop: 140,
         }}
       >
         {generateComponent(response)}
       </div>
-      <Poster data={response} />
+      {showPanels && <Poster data={response} setCurrentArtist={changeArtist} />}
     </div>
   );
 };

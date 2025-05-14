@@ -7,6 +7,7 @@ import { ClashIcon } from './ClashIcon';
 
 interface PosterProps {
   data: any[];
+  setCurrentArtist: any;
 }
 
 type BandData = {
@@ -94,12 +95,14 @@ interface BandNameProps {
   band: any;
   bandCount: any;
   clash: boolean;
+  onClick: any;
 }
 
 const BandName: React.FC<BandNameProps> = ({
   band,
   bandCount,
   clash,
+  onClick,
 }: BandNameProps) => {
   const newName = band.artist.name.trim().toLowerCase().replace(' ', '-');
   return (
@@ -109,8 +112,10 @@ const BandName: React.FC<BandNameProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         fontWeight: 'bold',
-        fontSize: '1vw',
+        cursor: 'pointer',
       }}
+      className="band-name"
+      onClick={onClick}
     >
       <div
         style={{
@@ -131,7 +136,10 @@ const BandName: React.FC<BandNameProps> = ({
     </div>
   );
 };
-const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
+const Poster: React.FC<PosterProps> = ({
+  data,
+  setCurrentArtist,
+}: PosterProps) => {
   const [sortedData, setSortedData] = useState<BandData | null>(null);
   const [bandCount, setBandCount] = useState<any | null>(null);
   const [bands, setBands] = useState<{
@@ -228,8 +236,9 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
     band: any;
     day: string;
     clash?: boolean;
+    setCurrentArtist: any;
   }) => {
-    const { index, band, day, clash } = props;
+    const { index, band, day, clash, setCurrentArtist } = props;
     return (
       <div
         style={{
@@ -240,13 +249,19 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
           padding: 4,
         }}
       >
-        <BandName band={band} bandCount={bandCount} clash={clash || false} />
+        <BandName
+          band={band}
+          bandCount={bandCount}
+          clash={clash || false}
+          onClick={() => setCurrentArtist(band)}
+        />
         <sub style={{ textAlign: 'right', color: 'rgba(255,255,255,0.7)' }}>{`${
           band.artist.events.venue
         } - ${band.artist.events.time.replace(day, '')}`}</sub>
       </div>
     );
   };
+
   useEffect(() => {
     if (!sortedData) return;
 
@@ -280,6 +295,7 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
               index={index}
               day="Wednesday"
               clash={hasClash}
+              setCurrentArtist={setCurrentArtist}
             />
           );
         });
@@ -312,6 +328,7 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
               index={index}
               day="Thursday"
               clash={hasClash}
+              setCurrentArtist={setCurrentArtist}
             />
           );
         });
@@ -368,6 +385,7 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
               index={index}
               day="Friday"
               clash={hasClash}
+              setCurrentArtist={setCurrentArtist}
             />
           );
         });
@@ -400,6 +418,7 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
               index={index}
               day="Saturday"
               clash={hasClash}
+              setCurrentArtist={setCurrentArtist}
             />
           );
         });
@@ -432,19 +451,19 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
       </div>
 
       <div className="poster-page">
-        <div style={{ width: '22%' }}>
+        <div className="col-s">
           <h1>Wed</h1>
           {bands?.wed}
         </div>
-        <div style={{ width: '22%' }}>
+        <div className="col-s">
           <h1>Thu</h1>
           {bands?.thu}
         </div>
-        <div style={{ width: '22%' }}>
+        <div className="col-s">
           <h1>Fri</h1>
           {bands?.fri}
         </div>
-        <div style={{ width: '22%' }}>
+        <div className="col-s">
           <h1>Sat</h1>
           {bands?.sat}
         </div>
