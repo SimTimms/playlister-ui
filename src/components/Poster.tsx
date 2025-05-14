@@ -3,7 +3,6 @@ import './Poster.css';
 import tge from '../assets/tge.svg';
 import { RepeatIcon } from './RepeatIcon';
 import { NoRepeatIcon } from './NoRepeatIcon';
-import { LastChanceIcon } from './LastChanceIcon';
 import { ClashIcon } from './ClashIcon';
 
 interface PosterProps {
