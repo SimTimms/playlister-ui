@@ -72,10 +72,10 @@ const Artists: React.FC = () => {
             className="div-ew"
             style={{
               backdropFilter: 'blur(5px)',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               alignItems: 'center',
               paddingBottom: 20,
               width: '100%',
@@ -83,6 +83,7 @@ const Artists: React.FC = () => {
               bottom: 0,
               left: 0,
               overflow: 'auto',
+              paddingTop: 50,
             }}
           >
             <h2>{item.artist.name}</h2>
