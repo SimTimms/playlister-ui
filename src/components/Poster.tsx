@@ -359,10 +359,6 @@ const Poster: React.FC<PosterProps> = ({ data }: PosterProps) => {
             totalShows - howManyShowsToday(band).length
           );
 
-          const isLastChance =
-            showsToday[newName] === 1 &&
-            totalShows - howManyShowsToday(band).length === 0;
-
           showNumber[newName] += 1;
           showsToday[newName] += 1;
 
