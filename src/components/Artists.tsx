@@ -57,12 +57,11 @@ const Artists: React.FC = () => {
 
       componentArray.push(
         <div
+          className="div-ew"
           style={{
             backgroundImage: `url(${item.artist.image.url})`,
             backgroundSize: 'cover',
             width: '100vw',
-            height: '100vh',
-            height: '100dvh',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -70,6 +69,7 @@ const Artists: React.FC = () => {
           }}
         >
           <div
+            className="div-ew"
             style={{
               backdropFilter: 'blur(5px)',
               backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -83,8 +83,6 @@ const Artists: React.FC = () => {
               bottom: 0,
               left: 0,
               overflow: 'auto',
-              height: '100vh',
-              height: '100dvh',
             }}
           >
             <h2>{item.artist.name}</h2>
@@ -136,11 +134,10 @@ const Artists: React.FC = () => {
   if (loading) {
     return (
       <div
+        className="div-ew"
         style={{
           display: 'flex',
           width: '100vw',
-          height: '100vh',
-          height: '100dvh',
 
           justifyContent: 'center',
           flexDirection: 'column',
@@ -158,11 +155,10 @@ const Artists: React.FC = () => {
   }
   return (
     <div
+      className="div-ew"
       style={{
         display: 'flex',
         width: '100vw',
-        height: '100vh',
-        height: '100dvh',
 
         justifyContent: 'center',
         flexDirection: 'column',
@@ -264,12 +260,10 @@ const Artists: React.FC = () => {
       </div>
 
       <div
+        className="div-ew"
         style={{
           display: 'flex',
           width: '100vw',
-          height: '100vh',
-          height: '100dvh',
-
           flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',
