@@ -62,6 +62,7 @@ const Artists: React.FC = () => {
             backgroundSize: 'cover',
             width: '100vw',
             height: '100vh',
+            height: '100dvh',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -83,6 +84,7 @@ const Artists: React.FC = () => {
               left: 0,
               overflow: 'auto',
               height: '100vh',
+              height: '100dvh',
             }}
           >
             <h2>{item.artist.name}</h2>
@@ -138,6 +140,8 @@ const Artists: React.FC = () => {
           display: 'flex',
           width: '100vw',
           height: '100vh',
+          height: '100dvh',
+
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center',
@@ -158,6 +162,8 @@ const Artists: React.FC = () => {
         display: 'flex',
         width: '100vw',
         height: '100vh',
+        height: '100dvh',
+
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
@@ -262,6 +268,8 @@ const Artists: React.FC = () => {
           display: 'flex',
           width: '100vw',
           height: '100vh',
+          height: '100dvh',
+
           flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',

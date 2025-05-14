@@ -444,6 +444,7 @@ const Poster: React.FC<PosterProps> = ({
           color: '#fff',
           position: 'fixed',
           height: '100vh',
+          height: '100dvh',
           width: '100vw',
         }}
       >
