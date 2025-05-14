@@ -71,7 +71,6 @@ const Artists: React.FC = () => {
           <div
             style={{
               backdropFilter: 'blur(5px)',
-              overflow: 'auto',
               backgroundColor: 'rgba(0, 0, 0, 0.5)',
               display: 'flex',
               flexDirection: 'column',
@@ -82,6 +81,8 @@ const Artists: React.FC = () => {
               position: 'absolute',
               bottom: 0,
               left: 0,
+              overflow: 'auto',
+              height: '100vh',
             }}
           >
             <h2>{item.artist.name}</h2>
@@ -113,7 +114,7 @@ const Artists: React.FC = () => {
             <div
               style={{
                 marginTop: 10,
-                overflow: 'auto',
+                padding: 10,
               }}
             >
               {parse(item.artist.description)}
@@ -186,12 +187,18 @@ const Artists: React.FC = () => {
               onClick={() => {
                 changePlaylist('3o60YYFMgopRPOXOYxpkTz');
               }}
+              style={{
+                opacity: playlistId === '3o60YYFMgopRPOXOYxpkTz' ? 1 : 0.4,
+              }}
             >
               Tim
             </button>
             <button
               onClick={() => {
                 changePlaylist('3g2AIxdNdLLcWHVOuVxBXg');
+              }}
+              style={{
+                opacity: playlistId === '3g2AIxdNdLLcWHVOuVxBXg' ? 1 : 0.4,
               }}
             >
               Yak
@@ -200,12 +207,18 @@ const Artists: React.FC = () => {
               onClick={() => {
                 changePlaylist('4z56A77P0onHJOgItRGR2W');
               }}
+              style={{
+                opacity: playlistId === '4z56A77P0onHJOgItRGR2W' ? 1 : 0.4,
+              }}
             >
               Luk
             </button>
             <button
               onClick={() => {
                 changePlaylist('3V1tvYLZ8TodrWzJukaZzL');
+              }}
+              style={{
+                opacity: playlistId === '3V1tvYLZ8TodrWzJukaZzL' ? 1 : 0.4,
               }}
             >
               Phi
@@ -214,12 +227,18 @@ const Artists: React.FC = () => {
               onClick={() => {
                 changePlaylist('3gS4Gq1iv442Dp8NPkS888');
               }}
+              style={{
+                opacity: playlistId === '3gS4Gq1iv442Dp8NPkS888' ? 1 : 0.4,
+              }}
             >
               John
             </button>
             <button
               onClick={() => {
                 changePlaylist('7gobrIxFHBcPKlZfRYRBN1');
+              }}
+              style={{
+                opacity: playlistId === '7gobrIxFHBcPKlZfRYRBN1' ? 1 : 0.4,
               }}
             >
               Bean
