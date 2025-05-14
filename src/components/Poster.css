@@ -1,0 +1,43 @@
+.poster-page-wrapper{
+  min-height:100vh;
+  width:100vw;
+  background-color:gray;
+  z-index:10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: fixed;
+  left:0;
+  top:0;
+  overflow: hidden;
+}
+
+.poster-page {
+  height: 100%;
+  width: 100vw;
+  z-index: 10;
+  display: flex;
+  justify-content: space-around ;
+    color: #fff !important;
+    padding-top:1vw;
+}
+
+.tge-logo{
+  width:100%;
+  opacity: 0.05;
+}
+
+.poster-page h1{
+  font-size:2vw;
+  margin:0
+}
+
+.poster-page h2 {
+  font-size: 0vw;
+  margin: 0
+}
+
+.poster-page sub {
+  font-size: 1vw;
+  margin: 0
+}

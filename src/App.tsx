@@ -1,6 +1,5 @@
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Artists from './components/Artists';
-import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 const theme = createTheme({
   palette: {
@@ -9,8 +8,6 @@ const theme = createTheme({
     },
   },
 });
-
-const sessionId = uuidv4();
 
 function App() {
   return (
