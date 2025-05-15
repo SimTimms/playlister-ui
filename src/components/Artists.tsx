@@ -188,6 +188,16 @@ const Artists: React.FC = () => {
           <>
             <button
               onClick={() => {
+                changePlaylist('5syAOZdtRs7vk82rzYfq1R');
+              }}
+              style={{
+                opacity: playlistId === '5syAOZdtRs7vk82rzYfq1R' ? 1 : 0.4,
+              }}
+            >
+              Ed
+            </button>
+            <button
+              onClick={() => {
                 changePlaylist('3o60YYFMgopRPOXOYxpkTz');
               }}
               style={{
