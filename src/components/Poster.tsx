@@ -239,6 +239,29 @@ const Poster: React.FC<PosterProps> = ({
     setCurrentArtist: any;
   }) => {
     const { index, band, day, clash, setCurrentArtist } = props;
+
+    const newTime = convertTime12to24(
+      band.artist.events.time
+        .replace(day, '')
+        .trim()
+        .replace('pm', ' pm')
+        .replace('am', ' am')
+    );
+
+    let dateReplace =
+      day === 'Wednesday'
+        ? '2025-05-14'
+        : day === 'Thursday'
+        ? '2025-05-15'
+        : day === 'Friday'
+        ? '2025-05-16'
+        : '2025-05-17';
+
+    let newDate = new Date(`${dateReplace} ${newTime.time}`);
+
+    if (newDate.getHours() < 5) {
+      newDate.setDate(newDate.getDate() + 1);
+    }
     return (
       <div
         style={{
@@ -247,8 +270,10 @@ const Poster: React.FC<PosterProps> = ({
           background: index % 2 ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.5)',
           color: '#fff',
           padding: 4,
+          opacity: newDate > new Date() ? 1 : 0.4,
         }}
       >
+        {newDate < new Date() && 'adssd'}
         <BandName
           band={band}
           bandCount={bandCount}
