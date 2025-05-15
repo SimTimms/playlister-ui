@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import parse from 'html-react-parser';
 import Poster from './Poster';
+import magic from '../assets/magic.gif';
 const Artists: React.FC = () => {
   const [playlistId, setPlaylistId] = React.useState<string>(
     '3o60YYFMgopRPOXOYxpkTz'
@@ -41,7 +42,11 @@ const Artists: React.FC = () => {
   }, [playlistId]);
 
   if (!response) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <img src={magic} />
+      </div>
+    );
   }
 
   const generateComponent = (response: any[]) => {
@@ -61,6 +66,7 @@ const Artists: React.FC = () => {
           style={{
             backgroundImage: `url(${item.artist.image.url})`,
             backgroundSize: 'cover',
+            backgroundPosition: 'center',
             width: '100vw',
             display: 'flex',
             justifyContent: 'center',
@@ -72,7 +78,7 @@ const Artists: React.FC = () => {
             className="div-ew"
             style={{
               backdropFilter: 'blur(5px)',
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              backgroundColor: 'rgba(0, 0, 0, 0.9)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'flex-start',
@@ -87,6 +93,14 @@ const Artists: React.FC = () => {
             }}
           >
             <h2>{item.artist.name}</h2>
+            {filterArray.map((itemA) => {
+              return (
+                <div>
+                  {`${itemA.artist.events.venue} - ${itemA.artist.events.time}`}
+                </div>
+              );
+            })}
+            <div style={{ margin: 10 }}></div>
             {item.tracks.slice(0, 5).map((track: any) => {
               const trackSplit = track.split('|');
               return (
@@ -150,7 +164,7 @@ const Artists: React.FC = () => {
           background: 'gray',
         }}
       >
-        LOADING!!!!
+        <img src={magic} />
       </div>
     );
   }
@@ -160,14 +174,12 @@ const Artists: React.FC = () => {
       style={{
         display: 'flex',
         width: '100vw',
-
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
         left: 0,
         top: 0,
         position: 'fixed',
-        background: 'gray',
         overflow: 'auto',
       }}
     >
