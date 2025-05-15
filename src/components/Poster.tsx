@@ -391,12 +391,6 @@ const Poster: React.FC<PosterProps> = ({
             .toLowerCase()
             .replace(' ', '-');
 
-          const howManyShowsToday = (bandName: any) => {
-            return sortedData['fri'].filter((item: any) => {
-              return item.artist.name === bandName.artist.name;
-            });
-          };
-
           if (!showNumber[newName]) {
             showNumber[newName] = 1;
           }
