@@ -18,7 +18,31 @@ type BandData = {
 };
 
 const convertTime12to24 = (time12h: any): { time: string; date: string } => {
-  const [time, modifier] = time12h.split(' ');
+  const datesArr = [
+    '2025-05-14',
+    '2025-05-15',
+    '2025-05-16',
+    '2025-05-17',
+    '2025-05-18',
+  ];
+  let dateIndex =
+    time12h.indexOf('Wednesday') > -1
+      ? 0
+      : time12h.indexOf('Thursday') > -1
+      ? 1
+      : time12h.indexOf('Friday') > -1
+      ? 2
+      : 3;
+
+  const newTime = time12h
+    .replace('Wednesday', '')
+    .replace('Thursday', '')
+    .replace('Friday', '')
+    .replace('Saturday', '')
+    .trim()
+    .replace('pm', ' pm')
+    .replace('am', ' am');
+  const [time, modifier] = newTime.split(' ');
 
   let [hours, minutes] = time.split(':');
 
@@ -32,7 +56,9 @@ const convertTime12to24 = (time12h: any): { time: string; date: string } => {
   if (modifier === 'am') {
     hours = parseInt(hours, 10);
   }
-  const actualDate = hours < 5 ? '2025-05-16' : '2025-05-15';
+
+  const actualDate = hours < 5 ? datesArr[dateIndex + 1] : datesArr[dateIndex];
+
   return { time: `${hours}:${minutes}`, date: actualDate };
 };
 {
@@ -151,39 +177,37 @@ const Poster: React.FC<PosterProps> = ({
 
   useEffect(() => {
     const bandCountNew: any = {};
-    for (let i = 0; i < data.length; i++) {
-      const newName = data[i].artist.name
-        .trim()
-        .toLowerCase()
-        .replace(' ', '-');
 
-      if (!bandCountNew[newName]) {
-        bandCountNew[newName] = 1;
-      } else {
-        bandCountNew[newName] += 1;
-      }
-    }
-
-    const schedule = (aTime: string, bTime: string, replaceString: string) => {
-      const aDateConverted = convertTime12to24(
-        aTime
-          .replace(replaceString, '')
-          .trim()
-          .replace('pm', ' pm')
-          .replace('am', ' am')
-      );
+    const schedule = (aTime: string, bTime: string) => {
+      const aDateConverted = convertTime12to24(aTime);
       const aDate = new Date(`${aDateConverted.date} ${aDateConverted.time}`);
 
-      const bDateConverted = convertTime12to24(
-        bTime
-          .replace(replaceString, '')
-          .trim()
-          .replace('pm', ' pm')
-          .replace('am', ' am')
-      );
+      const bDateConverted = convertTime12to24(bTime);
       const bDate = new Date(`${bDateConverted.date} ${bDateConverted.time}`);
       return { aDate: aDate, bDate: bDate };
     };
+
+    const countData = data.sort((a: any, b: any) => {
+      const { aDate, bDate } = schedule(
+        a.artist.events.time,
+        b.artist.events.time
+      );
+      return aDate > bDate ? -1 : 1;
+    });
+
+    for (let i = 0; i < countData.length; i++) {
+      const band = countData[i];
+      const newName = band.artist.name.trim().toLowerCase().replace(' ', '-');
+
+      const newTime = convertTime12to24(band.artist.events.time);
+
+      let newDate = new Date(`${newTime.date} ${newTime.time}`);
+      if (!bandCountNew[newName]) {
+        bandCountNew[newName] = 1;
+      } else if (newDate > new Date()) {
+        bandCountNew[newName] += 1;
+      }
+    }
 
     const bandData: BandData = {
       wed: data
@@ -191,8 +215,7 @@ const Poster: React.FC<PosterProps> = ({
         .sort((a: any, b: any) => {
           const { aDate, bDate } = schedule(
             a.artist.events.time,
-            b.artist.events.time,
-            'Wednesday'
+            b.artist.events.time
           );
           return aDate > bDate ? -1 : 1;
         }),
@@ -201,8 +224,7 @@ const Poster: React.FC<PosterProps> = ({
         .sort((a: any, b: any) => {
           const { aDate, bDate } = schedule(
             a.artist.events.time,
-            b.artist.events.time,
-            'Thursday'
+            b.artist.events.time
           );
           return aDate > bDate ? -1 : 1;
         }),
@@ -211,8 +233,7 @@ const Poster: React.FC<PosterProps> = ({
         .sort((a: any, b: any) => {
           const { aDate, bDate } = schedule(
             a.artist.events.time,
-            b.artist.events.time,
-            'Friday'
+            b.artist.events.time
           );
           return aDate > bDate ? -1 : 1;
         }),
@@ -221,8 +242,7 @@ const Poster: React.FC<PosterProps> = ({
         .sort((a: any, b: any) => {
           const { aDate, bDate } = schedule(
             a.artist.events.time,
-            b.artist.events.time,
-            'Saturday'
+            b.artist.events.time
           );
           return aDate > bDate ? -1 : 1;
         }),
@@ -240,13 +260,7 @@ const Poster: React.FC<PosterProps> = ({
   }) => {
     const { index, band, day, clash, setCurrentArtist } = props;
 
-    const newTime = convertTime12to24(
-      band.artist.events.time
-        .replace(day, '')
-        .trim()
-        .replace('pm', ' pm')
-        .replace('am', ' am')
-    );
+    const newTime = convertTime12to24(band.artist.events.time);
 
     let dateReplace =
       day === 'Wednesday'
@@ -273,7 +287,6 @@ const Poster: React.FC<PosterProps> = ({
           opacity: newDate > new Date() ? 1 : 0.4,
         }}
       >
-        {newDate < new Date() && 'adssd'}
         <BandName
           band={band}
           bandCount={bandCount}
@@ -391,15 +404,6 @@ const Poster: React.FC<PosterProps> = ({
           if (!showsToday[newName]) {
             showsToday[newName] = 1;
           }
-
-          const totalShows = bandCount[newName];
-          console.log(
-            band.artist.name,
-            howManyShowsToday(band).length,
-            showNumber[newName],
-            totalShows,
-            totalShows - howManyShowsToday(band).length
-          );
 
           showNumber[newName] += 1;
           showsToday[newName] += 1;
