@@ -476,10 +476,6 @@ const Poster: React.FC<PosterProps> = ({
 
       <div className="poster-page">
         <div className="col-s">
-          <h1>Thu</h1>
-          {bands?.thu}
-        </div>
-        <div className="col-s">
           <h1>Fri</h1>
           {bands?.fri}
         </div>
